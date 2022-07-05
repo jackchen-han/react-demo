@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">app</div>
+
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
+        // 封装App组件
+         class App extends React.Component {
+             constructor(){
+                 super()
+                 /**
+                  * 在这里不能直接定义数据，否则没办法实时渲染更改的数据
+                 */
+                //  this.message = "Hello World!"
+                this.state = {
+                    message:'Hello world!'
+                }
+             }
+             render(){
+                //  第一个解决办法：在按钮里的方法用bind来绑定this执行
+                 return (
+                     <div>
+                       <h2>{ this.state.message}</h2> 
+                       <button onClick={this.btnClick.bind(this)}>  改变文本 </button>
+                    </div>
+                     )
+                }
+            btnClick(){
+                console.log('按钮被点击')
+                // 在这里的按钮被点击时使用apply来调用这个方法而且绑定了undefined，所以this指向undefined
+                // 可以使用箭头函数来使this指向本对象
+                // console.log('---->打印this：',this)
+                // this.message = "Hello React!"
+                // 更改完数据之后界面不渲染
+                // console.log('---->更改之后的message：',this.message)
+                // 不能直接修改这边的数据，只能通过this.setState
+                // this.state.message = 'Hello React!'
+                this.setState({
+                    message:'Hello World has been changed!'
+                })
+
+            }
+
+         }
+        // 渲染app组件
+        ReactDOM.render(<App/>,document.getElementById("app"))
+
+    </script>
+</body>
+</html>
